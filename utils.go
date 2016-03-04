@@ -316,3 +316,22 @@ func CreateContextID() int64 {
 	
 	return id 
 }
+
+func GetTimeFormat(layout string) string {
+	t := time.Now()
+
+	ye := t.Format(layout)
+
+	
+	return ye
+}
+
+func GetUTCTimeFormat(layout string) string{
+	t := time.Now()
+
+	ti := t.UTC()
+	ye := ti.Format(layout)
+		
+	return ye
+	
+}
