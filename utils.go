@@ -335,3 +335,43 @@ func GetUTCTimeFormat(layout string) string{
 	return ye
 	
 }
+
+//return minutes
+func CompareTime(t1 string,layout string) int {
+	
+	location,err := time.LoadLocation("Local")
+	
+	
+	t,err := time.ParseInLocation(layout,t1,location)
+	
+	if err != nil {
+		return 0
+	}
+	
+	tt := time.Now()
+	
+	sec1 := t.Unix()
+	sec2 := tt.Unix()
+	
+	return int((sec2-sec1)/60)
+}
+
+
+func BytesToFloat32(buf []byte) float32 {
+
+	var h float32
+	if len(buf)<4 {
+		return 0.0
+	}
+	
+	b := make([]byte,4)
+	b[0]=buf[3]
+	b[1]=buf[2]
+	b[2]=buf[1]
+	b[3]=buf[0]
+	
+	bb := bytes.NewReader(b)
+	binary.Read(bb, binary.BigEndian, &h)
+	
+	return h
+}
