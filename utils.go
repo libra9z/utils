@@ -13,6 +13,8 @@ import (
 	"os"
 	"time"
 	"strconv"
+	
+	"github.com/fgrid/uuid"
 )
 
 
@@ -374,4 +376,15 @@ func BytesToFloat32(buf []byte) float32 {
 	binary.Read(bb, binary.BigEndian, &h)
 	
 	return h
+}
+
+func CreateTokenString(namespace string) (token string) {
+	
+	us := uuid.NewNamespaceUUID(namespace)
+	
+	_,tid := CreateTokenID()
+	
+	token = namespace+"_"+ tid + us.String()
+	
+	return token
 }
