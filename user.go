@@ -42,7 +42,7 @@ func GetSysTime(uri string)(st int64){
 	}
 	
 	if vs["Time"] != nil {
-		st = vs["Time"].(int64)
+		st = int64(vs["Time"].(float64))
 	}	
 	
 	return st
@@ -149,7 +149,7 @@ func CheckUser(uri string,appid int,token string,value string,typ string)(userid
 	}
 	
 	if vs["Userid"] != nil {
-		userid = vs["Userid"].(int64)
+		userid = int64(vs["Userid"].(float64))
 	}	
 	
 	return userid, err
