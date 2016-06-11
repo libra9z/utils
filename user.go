@@ -18,6 +18,7 @@ func GetSysTime(uri string)(st int64){
 	resp, err := http.Get(uri)
 	if err != nil {
 		// handle error
+		fmt.Println(err)
 		return 0
 	}
 
@@ -27,6 +28,7 @@ func GetSysTime(uri string)(st int64){
 	
 	if err != nil {
 		// handle error
+		fmt.Println(err)
 		return 0
 	}
 	
@@ -125,7 +127,11 @@ func CheckUser(uri string,appid int,token string,value string,typ string)(userid
 	if err != nil {
 		fmt.Println(err)
 	}
-
+	
+	if resp == nil {
+		fmt.Printf("no response body return.\n")
+		return 0,err
+	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
