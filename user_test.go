@@ -23,7 +23,8 @@ func TestCheckUser(t *testing.T) {
 	
 	uri3 = uri3+token
 	
-	userid,_ := CheckUser(uri3,appid,token,"0275976165","rfid")	
+	fmt.Println(uri3)
+	userid,_ := CheckUser(uri3,appid,token,"walliam","name")	
 	
 	fmt.Printf("userid=%d\n",userid)
 }

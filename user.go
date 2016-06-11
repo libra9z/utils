@@ -9,8 +9,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strings"
-	//"os"
-	"compress/gzip"
+
 )
 
 func GetSysTime(uri string)(st int64){
@@ -61,43 +60,25 @@ func GetToken(uri string,appid int,appkey string,ti int64) (token string ){
 
 	reqtoken := fmt.Sprintf("%02x", m5)
 	
+	fmt.Println("reqtoken="+reqtoken)
+	
 	v.Add("requesttoken",reqtoken)
 	
-	reqest, err := http.NewRequest("POST", uri, strings.NewReader(v.Encode()))
-
-    if err != nil {
-	    fmt.Println("Fatal error ", err.Error())
-	    return ""
-	}
-
-  	reqest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := http.Post(uri,"application/x-www-form-urlencoded",strings.NewReader(v.Encode()))
 	
-	client := &http.Client{nil, nil, nil,10000}
-	response, err := client.Do(reqest)
-	if response == nil {
-		fmt.Println("no body return")
+	if err != nil {
+		fmt.Println(err)
+	}
+	
+	if resp == nil {
+		fmt.Printf("no response body return.\n")
 		return ""
 	}
-    defer response.Body.Close()
-
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-	    fmt.Println("Fatal error ", err.Error())
-	    return ""
-	}
-
-    var body []byte
-	
-    if response.StatusCode == 200 {
-
-	    switch response.Header.Get("Content-Encoding") {
-	    case "gzip":
-	        reader, _ := gzip.NewReader(response.Body)
-	        reader.Read(body)
-	    default:
-	        bodyByte, _ := ioutil.ReadAll(response.Body)
-	        body = bodyByte
-	    }
-
+		// handle error
+		fmt.Println(string(body))
 	}
 
 	var vs map[string]interface{}
@@ -147,9 +128,11 @@ func CheckUser(uri string,appid int,token string,value string,typ string)(userid
 		fmt.Printf("cannot convert json.\n")
 		return 0,err
 	}
+
+	//fmt.Printf("body = %v.\n",vs)
 	
-	if vs["Userid"] != nil {
-		userid = int64(vs["Userid"].(float64))
+	if vs["UserId"] != nil {
+		userid = int64(vs["UserId"].(float64))
 	}	
 	
 	return userid, err
