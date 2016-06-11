@@ -2,6 +2,7 @@ package utils
 
 import (
     "testing"
+    "fmt"
 )
 
 func TestCheckUser(t *testing.T) {
