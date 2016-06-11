@@ -9,7 +9,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"strings"
-	"os"
+	//"os"
 	"compress/gzip"
 )
 
@@ -65,18 +65,22 @@ func GetToken(uri string,appid int,appkey string,ti int64) (token string ){
 
     if err != nil {
 	    fmt.Println("Fatal error ", err.Error())
-	    os.Exit(0)
+	    return ""
 	}
 
   	reqest.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	
 	client := &http.Client{nil, nil, nil,10000}
 	response, err := client.Do(reqest)
+	if response == nil {
+		fmt.Println("no body return")
+		return ""
+	}
     defer response.Body.Close()
 
 	if err != nil {
 	    fmt.Println("Fatal error ", err.Error())
-	    os.Exit(0)
+	    return ""
 	}
 
     var body []byte
