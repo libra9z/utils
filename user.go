@@ -137,3 +137,46 @@ func CheckUser(uri string,appid int,token string,value string,typ string)(userid
 	
 	return userid, err
 }
+
+func CheckToken(uri string,appid int,token string) bool {
+	
+	var bret bool = false
+	
+	resp, err := http.Post(uri,"application/x-www-form-urlencoded",strings.NewReader(""))
+	
+	if err != nil {
+		fmt.Println(err)
+	}
+	
+	if resp == nil {
+		fmt.Printf("no response body return.\n")
+		return false
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		// handle error
+		fmt.Println(string(body))
+	}
+	
+	
+	var vs map[string]interface{}
+	err = json.Unmarshal(body,&vs)
+	
+	if err != nil {
+		fmt.Printf("cannot convert json.\n")
+		return false
+	}
+
+	//fmt.Printf("body = %v.\n",vs)
+	
+	if vs["Ret"] != nil {
+		ret := int64(vs["Ret"].(float64))
+		
+		if ret == 0 {
+			bret = true
+		}
+	}	
+	
+	return bret	
+}
