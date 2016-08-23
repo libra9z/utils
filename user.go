@@ -180,3 +180,13 @@ func CheckToken(uri string,appid int,token string) bool {
 	
 	return bret	
 }
+
+func GetBirthdayFromIdcard( idcard string) string {
+	if idcard == "" {
+		return ""
+	}
+	
+	birthday := string([]byte(idcard)[6:10])+"-" +string([]byte(idcard)[10:12])+"-" +string([]byte(idcard)[12:14])
+	
+	return birthday
+}

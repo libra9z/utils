@@ -54,3 +54,9 @@ func TestCheckToken(t *testing.T) {
 	fmt.Printf("check token=%v\n",bret)
 }
 
+func TestGetBirthdayFromIdcard(t *testing.T) {
+	
+	bret := GetBirthdayFromIdcard("310107194711031619")	
+	
+	fmt.Printf("birthday =%v\n",bret)
+}
