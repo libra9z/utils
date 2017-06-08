@@ -26,6 +26,10 @@ func Convert2Int64(v interface{}) int64 {
 
 func Convert2Int(v interface{}) int {
 
+	if v == nil {
+		return 0
+	}
+
 	t := reflect.TypeOf(v)
 	var ret int64
 	switch t.Name() {
