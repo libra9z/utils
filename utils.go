@@ -388,3 +388,67 @@ func CreateTokenString(namespace string) (token string) {
 	
 	return token
 }
+
+
+/*
+	获取某个月份的开始日期和结束日期
+	month ：0 获取本月的开始和结束日期
+	month ： -1 获取上一个月的
+	month ： 1 获取下一个月的日期
+*/
+func GetStartEndTimeOfMonth(month int)(start ,end string){
+	nt := time.Now()
+
+	nt = nt.AddDate(0,month,0)
+
+	y,m,d := nt.Date()
+
+	start  = fmt.Sprintf("%d-%02d-01 00:00:00",y,m)
+
+	switch m {
+	case 1,3,5,7,8,10,12:
+		d = 31
+	case 4,6,9,11:
+		d = 30
+	case 2:
+		if y % 4 == 0 && y % 100 != 0 || y % 400 ==0 {
+			d = 29
+		}else {
+			d = 28
+		}
+
+	}
+	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y,m,d)
+
+	return
+}
+
+
+/*
+	获取某个月份的开始日期和结束日期
+	week ：0 获取本周的开始和结束日期
+	week ： -1 获取上一周的
+	week ： 1 获取下一周的日期
+*/
+func GetStartEndTimeOfWeek(week int)(start ,end string){
+
+	nt := time.Now().Weekday()
+
+	if nt == 0 {
+		nt = 7
+	}
+
+	st := time.Now().Add(-time.Duration(nt-1)*24*time.Hour)
+
+	y,m,d := st.Date()
+
+	start  = fmt.Sprintf("%d-%02d-%02d 00:00:00",y,m,d)
+
+	et := time.Now().Add(time.Duration(7-nt)*24*time.Hour)
+
+	y1,m1,d1 := et.Date()
+
+	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y1,m1,d1)
+
+	return
+}

@@ -86,3 +86,9 @@ func TestCompareTime(t *testing.T) {
 }
 
 
+func TestGetStartEndTimeOfWeek(t *testing.T) {
+	s,e := GetStartEndTimeOfWeek(0)
+
+	fmt.Printf("start time=: %s,end time=%s \n",s,e);
+}
+
