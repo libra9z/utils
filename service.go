@@ -43,14 +43,16 @@ func ServicePost(uri string,params string)(interface{},error) {
 
 	if resp == nil || err != nil  {
 		fmt.Printf("no response body return or has error(%v).\n",err)
-		return 0,errors.New("no response body return or has error")
+		return nil,errors.New("no response body return or has error")
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		// handle error
 		fmt.Println(string(body))
-		return 0,err
+		return nil,err
+	}else {
+		fmt.Println(string(body))
 	}
 
 
@@ -59,7 +61,7 @@ func ServicePost(uri string,params string)(interface{},error) {
 
 	if err != nil {
 		fmt.Printf("cannot convert json.\n")
-		return 0,err
+		return nil,err
 	}
 
 	return vs,err
