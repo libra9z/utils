@@ -3,6 +3,8 @@ package utils
 import (
 	"reflect"
 	"strconv"
+	"fmt"
+	"encoding/json"
 )
 
 func Convert2Int64(v interface{}) int64 {
@@ -80,6 +82,25 @@ func Convert2Float32(v interface{}) float32 {
 		ret = float32(v.(int64))
 	case "int":
 		ret = float32(v.(int))
+	}
+
+	return ret
+}
+
+func ConvertToString(v interface{}) string {
+
+	var ret string
+	t := reflect.TypeOf(v)
+	switch t.Name() {
+	case "string":
+		ret = v.(string)
+	default:
+		bb,err:=json.Marshal(v)
+		if err != nil {
+			fmt.Errorf("json 格式不正确 ：%v",err)
+			return ""
+		}
+		ret=string(bb)
 	}
 
 	return ret
