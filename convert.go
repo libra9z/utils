@@ -94,6 +94,10 @@ func ConvertToString(v interface{}) string {
 	switch t.Name() {
 	case "string":
 		ret = v.(string)
+	case "int64":
+		ret = strconv.FormatInt(v.(int64),10)
+	case "float64":
+		ret = strconv.FormatFloat(v.(float64),'f',-1,10)
 	default:
 		bb,err:=json.Marshal(v)
 		if err != nil {
