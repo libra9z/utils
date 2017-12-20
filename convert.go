@@ -8,6 +8,9 @@ import (
 )
 
 func Convert2Int64(v interface{}) int64 {
+	if v == nil {
+		return 0
+	}
 
 	t := reflect.TypeOf(v)
 	var ret int64
@@ -49,6 +52,9 @@ func Convert2Int(v interface{}) int {
 }
 
 func Convert2Float64(v interface{}) float64 {
+	if v == nil {
+		return 0
+	}
 
 	t := reflect.TypeOf(v)
 	var ret float64
@@ -67,6 +73,9 @@ func Convert2Float64(v interface{}) float64 {
 }
 
 func Convert2Float32(v interface{}) float32 {
+	if v == nil {
+		return 0
+	}
 
 	t := reflect.TypeOf(v)
 	var ret float32
@@ -88,6 +97,9 @@ func Convert2Float32(v interface{}) float32 {
 }
 
 func ConvertToString(v interface{}) string {
+	if v == nil {
+		return ""
+	}
 
 	var ret string
 	t := reflect.TypeOf(v)
