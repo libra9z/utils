@@ -423,6 +423,26 @@ func GetStartEndTimeOfMonth(month int)(start ,end string){
 	return
 }
 
+/*
+	获取某个月份的开始日期和结束日期
+	month ：0 获取本月的开始和结束日期
+	month ： -1 获取上一个月的
+	month ： 1 获取下一个月的日期
+*/
+func GetStartEndTimeOfMonthday(month int,day int)(start ,end string){
+	nt := time.Now()
+
+	nt = nt.AddDate(0,month,0)
+
+	y,m,_ := nt.Date()
+
+	start  = fmt.Sprintf("%d-%02d-%02d 00:00:00",y,m,day)
+
+	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y,m,day)
+
+	return start,end
+}
+
 
 /*
 	获取某个月份的开始日期和结束日期
@@ -450,7 +470,7 @@ func GetStartEndTimeOfWeek(week int)(start ,end string){
 
 	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y1,m1,d1)
 
-	return
+	return start,end
 }
 
 
@@ -476,6 +496,6 @@ func GetStartEndTimeOfWeekday(week int,weekday int)(start ,end string){
 	start = fmt.Sprintf("%d-%02d-%02d 00:00:00",y1,m1,d1)
 	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y1,m1,d1)
 
-	return
+	return start,end
 }
 

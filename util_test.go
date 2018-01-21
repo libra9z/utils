@@ -98,3 +98,8 @@ func TestGetStartEndTimeOfWeekday(t *testing.T) {
 	fmt.Printf("start time=: %s,end time=%s \n",s,e);
 }
 
+func TestGetStartEndTimeOfMonthday(t *testing.T) {
+	s,e := GetStartEndTimeOfMonthday(0,22)
+
+	fmt.Printf("start time=: %s,end time=%s \n",s,e);
+}
