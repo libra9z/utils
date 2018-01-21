@@ -452,3 +452,30 @@ func GetStartEndTimeOfWeek(week int)(start ,end string){
 
 	return
 }
+
+
+/*
+	获取某个月份的开始日期和结束日期
+	week ：0 获取本周的开始和结束日期
+	week ： -1 获取上一周的
+	week ： 1 获取下一周的日期
+	weekday : 一周的周几，从0-6，0代表周一
+*/
+func GetStartEndTimeOfWeekday(week int,weekday int)(start ,end string){
+
+	nt := time.Now().Weekday()
+
+	if nt == 0 {
+		nt = 7
+	}
+
+
+	et := time.Now().Add(time.Duration(weekday-int(nt))*24*time.Hour)
+
+	y1,m1,d1 := et.Date()
+	start = fmt.Sprintf("%d-%02d-%02d 00:00:00",y1,m1,d1)
+	end  = fmt.Sprintf("%d-%02d-%02d 23:59:59",y1,m1,d1)
+
+	return
+}
+
