@@ -39,7 +39,7 @@ func ServiceGet(uri string)(interface{},error) {
 
 func ServicePost(uri string,params string)(interface{},error) {
 
-	resp, err := http.Post(uri,"application/x-www-form-urlencoded",strings.NewReader(params))
+	resp, err := http.Post(uri,"application/json",strings.NewReader(params))
 
 	if resp == nil || err != nil  {
 		fmt.Printf("no response body return or has error(%v).\n",err)
