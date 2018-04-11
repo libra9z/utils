@@ -4,7 +4,7 @@ import "strings"
 
 /*
 	去掉数字字符串中的逗号，比如
-	1,711,624,950 变成 1711624950
+	 1,711,624,950 变成 1711624950
 */
 
 func ClearComma(s string) string {
