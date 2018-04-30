@@ -8,9 +8,9 @@ import (
 func TestCheckUser(t *testing.T) {
 	appkey := "6a79527cca7b43b588330db3e4375826"
 	appid := 7
-	uri1 := "http://dev.laoyou99.cn:80/api/v1/system/time"
-	uri2 := "http://dev.laoyou99.cn:80/api/v1/token/generate?appid=7"
-	uri3 := "http://dev.laoyou99.cn:80/api/v1/user/check?appid=7&siteid=1&token="
+	uri1 := "http://www.scoway.cn:8484/service/9058/system/time"
+	uri2 := "http://www.scoway.cn:8484/service/9058/token/generate?appid=7"
+	uri3 := "http://www.scoway.cn:8484/service/9058/user/check?appid=7&siteid=1&token="
 	
 	ti := GetSysTime(uri1)
 	
@@ -33,9 +33,9 @@ func TestCheckUser(t *testing.T) {
 func TestCheckToken(t *testing.T) {
 	appkey := "6a79527cca7b43b588330db3e4375826"
 	appid := 7
-	uri1 := "http://dev.laoyou99.cn:80/api/v1/system/time"
-	uri2 := "http://dev.laoyou99.cn:80/api/v1/token/generate?appid=7"
-	uri3 := "http://dev.laoyou99.cn:80/api/v1/token/check?appid=7&siteid=1&token="
+	uri1 := "http://www.scoway.cn:8484/service/9058/system/time"
+	uri2 := "http://www.scoway.cn:8484/service/9058/token/generate?appid=7"
+	uri3 := "http://www.scoway.cn:8484/service/9058/token/check?appid=7&siteid=1&token="
 	
 	ti := GetSysTime(uri1)
 	
@@ -52,6 +52,8 @@ func TestCheckToken(t *testing.T) {
 	bret := CheckToken(uri3,appid,token)	
 	
 	fmt.Printf("check token=%v\n",bret)
+
+
 }
 
 func TestGetBirthdayFromIdcard(t *testing.T) {
