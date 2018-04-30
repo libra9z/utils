@@ -171,9 +171,9 @@ func CheckToken(uri string,appid int,token string) bool {
 	//fmt.Printf("body = %v.\n",vs)
 	
 	if vs["Ret"] != nil {
-		ret := int64(vs["Ret"].(float64))
-		
-		if ret == 0 {
+		ret := Convert2Int64(vs["Ret"])
+		userid := Convert2Int64( vs["Userid"])
+		if ret == 0 && userid>0 {    //userid>0 表示用户已登录
 			bret = true
 		}
 	}	
