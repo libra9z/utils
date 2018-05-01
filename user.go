@@ -172,11 +172,17 @@ func CheckToken(uri string,appid int,token string) bool {
 	
 	if vs["Ret"] != nil {
 		ret := Convert2Int64(vs["Ret"])
-		userid := Convert2Int64( vs["Userid"])
-		if ret == 0 && userid>0 {    //userid>0 表示用户已登录
-			bret = true
+		if vs["Userid"] != nil {
+			userid := Convert2Int64( vs["Userid"])
+			if ret == 0 && userid>0 {    //userid>0 表示用户已登录
+				bret = true
+			}
+		}else{		//兼容以前的api版本（最初始的api版本不带userid)
+			if ret == 0 {
+				bret = true
+			}
 		}
-	}	
+	}
 	
 	return bret	
 }
