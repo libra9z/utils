@@ -89,7 +89,19 @@ func ServiceGetWithTimeout(uri string,timeout int)(interface{},error) {
 
 func ServicePost(uri string,params string)(interface{},error) {
 
-	resp, err := http.Post(uri,"application/json",strings.NewReader(params))
+	return servPost("application/json",uri,params)
+}
+
+func ServicePostFormData(uri string,params string)(interface{},error) {
+
+	return servPost("application/x-www-form-urlencoded",uri,params)
+}
+
+
+func servPost(contenttype string,uri string,params string)(interface{},error) {
+	//"application/json"
+
+	resp, err := http.Post(uri,contenttype,strings.NewReader(params))
 
 	if resp == nil || err != nil  {
 		fmt.Printf("no response body return or has error(%v).\n",err)
@@ -119,6 +131,16 @@ func ServicePost(uri string,params string)(interface{},error) {
 
 func ServicePostWithTimeout(uri string,params string,timeout int)(interface{},error) {
 
+ 	return servPostWithTimeout("application/json",uri,params,timeout)
+}
+
+func ServicePostFDWithTimeout(uri string,params string,timeout int)(interface{},error) {
+
+	return servPostWithTimeout("application/x-www-form-urlencoded",uri,params,timeout)
+}
+
+
+func servPostWithTimeout(contenttype string,uri string,params string,timeout int)(interface{},error) {
 	if timeout < 0 {
 		timeout = 5
 	}
@@ -136,7 +158,7 @@ func ServicePostWithTimeout(uri string,params string,timeout int)(interface{},er
 		},
 	}
 
-	resp, err := client.Post(uri,"application/json",strings.NewReader(params))
+	resp, err := client.Post(uri,contenttype,strings.NewReader(params))
 
 	if resp == nil || err != nil  {
 		fmt.Printf("no response body return or has error(%v).\n",err)
@@ -165,11 +187,21 @@ func ServicePostWithTimeout(uri string,params string,timeout int)(interface{},er
 }
 
 
-
 func ServicePut(uri string,params string)(interface{},error) {
+	return servPut("application/json",uri,params)
+}
 
+func ServicePutFormData(uri string,params string)(interface{},error) {
+	return servPut("application/x-www-form-urlencoded",uri,params)
+}
+
+
+func servPut(contenttype string,uri string,params string)(interface{},error) {
 	client := &http.Client{}
 	req,err := http.NewRequest(http.MethodPut,uri,strings.NewReader(params))
+
+	req.Header.Add("Content-Type",contenttype)
+
 	resp, err := client.Do(req)
 
 	if resp == nil || err != nil  {
@@ -197,6 +229,15 @@ func ServicePut(uri string,params string)(interface{},error) {
 }
 
 func ServicePutWithTimeout(uri string,params string,timeout int)(interface{},error) {
+	return servPutFDWithTimeout("application/json",uri,params,timeout)
+}
+
+func ServicePutFDWithTimeout(uri string,params string,timeout int)(interface{},error) {
+	return servPutFDWithTimeout("application/x-www-form-urlencoded",uri,params,timeout)
+}
+
+
+func servPutFDWithTimeout(contenttype, uri string,params string,timeout int)(interface{},error) {
 	if timeout < 0 {
 		timeout = 5
 	}
@@ -215,6 +256,9 @@ func ServicePutWithTimeout(uri string,params string,timeout int)(interface{},err
 
 	}
 	req,err := http.NewRequest(http.MethodPut,uri,strings.NewReader(params))
+
+	req.Header.Add("Content-Type",contenttype)
+
 	resp, err := client.Do(req)
 
 	if resp == nil || err != nil  {
@@ -243,8 +287,20 @@ func ServicePutWithTimeout(uri string,params string,timeout int)(interface{},err
 
 func ServiceDelete(uri string,params string)(interface{},error) {
 
+	return servDel("application/json",uri,params)
+}
+
+func ServiceDeleteFormData(uri string,params string)(interface{},error) {
+
+	return servDel("application/x-www-form-urlencoded",uri,params)
+}
+
+func servDel(contenttype string,uri string,params string)(interface{},error) {
 	client := &http.Client{}
 	req,err := http.NewRequest(http.MethodDelete,uri,strings.NewReader(params))
+
+	req.Header.Add("Content-Type",contenttype)
+
 	resp, err := client.Do(req)
 
 	if resp == nil || err != nil  {
@@ -272,7 +328,14 @@ func ServiceDelete(uri string,params string)(interface{},error) {
 }
 
 func ServiceDeleteWithTimeout(uri string,params string,timeout int)(interface{},error) {
+	return servDelWithtimeout("application/json",uri,params,timeout)
+}
 
+func ServiceDeleteFDWithTimeout(uri string,params string,timeout int)(interface{},error) {
+	return servDelWithtimeout("application/x-www-form-urlencoded",uri,params,timeout)
+}
+
+func servDelWithtimeout(contenttype string,uri string,params string,timeout int)(interface{},error) {
 	if timeout < 0 {
 		timeout = 5
 	}
@@ -291,6 +354,9 @@ func ServiceDeleteWithTimeout(uri string,params string,timeout int)(interface{},
 
 	}
 	req,err := http.NewRequest(http.MethodDelete,uri,strings.NewReader(params))
+
+	req.Header.Add("Content-Type",contenttype)
+
 	resp, err := client.Do(req)
 
 	if resp == nil || err != nil  {
@@ -315,4 +381,5 @@ func ServiceDeleteWithTimeout(uri string,params string,timeout int)(interface{},
 	}
 
 	return vs,err
+
 }
