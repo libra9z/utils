@@ -3,6 +3,7 @@ package utils
 import (
 	"strings"
 	"net"
+	"net/url"
 )
 
 func Hostname2IPv4( hostn string ) ( ip string) {
@@ -33,4 +34,25 @@ func Hostname2IPv4( hostn string ) ( ip string) {
 	}
 
 	return
+}
+
+func ParseForm(body string)(ret map[string]interface{}) {
+
+	if body == "" {
+		return
+	}
+
+	vs,err := url.ParseQuery(body)
+	if err != nil {
+		return nil
+	}
+	ret = make(map[string]interface{})
+
+	for k, v1 := range vs {
+		if len(v1) > 0 {
+			ret[k] = v1[0]
+		}
+	}
+
+	return ret
 }

@@ -32,3 +32,11 @@ func TestHostname2IPv4(t *testing.T) {
 	fmt.Printf("ip5 string: %s\n", ip)
 
 }
+
+func TestParseForm(t *testing.T) {
+	body := "val1=123&gender=1&age=12&name=王&address=%E5%98%89%E9%99%B5%E6%B1%9F%E4%B8%9C%E8%A1%9718%E5%8F%B7"
+
+	param := ParseForm(body)
+
+	fmt.Printf("param= %+v\n",param)
+}
