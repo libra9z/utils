@@ -12,10 +12,7 @@ func Hostname2IPv4( hostn string ) ( ip string) {
 	}
 
 	ss := strings.Split(hostn,":")
-	if ss[0] == "" {
-
-		ss[0] = "0.0.0.0"
-	}
+	
 	s1,_ := net.LookupHost(ss[0])
 
 	var p string
