@@ -121,3 +121,18 @@ func ConvertToString(v interface{}) string {
 
 	return ret
 }
+
+func StructToMap(v interface{})(map[string]interface{},error){
+	js,err := json.Marshal( v )
+	if err != nil {
+		return nil,err
+	}
+	m := map[string]interface{}{}
+
+	err = json.Unmarshal(js,&m)
+	if err != nil {
+		return nil,err
+	}
+
+	return m,nil
+}

@@ -47,3 +47,17 @@ func TestConvert2Float64(t *testing.T) {
 	t.Logf("float64: %f", ip1)
 }
 
+
+func TestStructToMap(t *testing.T) {
+
+	type S1 struct {
+		Siteid int64 	`form:"siteid" json:"siteid"`
+		Created string `form:"created" json:"created"`
+	}
+
+	s1 := S1{Siteid:1,Created:"2009-01-01"}
+
+	ip1,_ := StructToMap(s1)
+	t.Logf("map: %+v", ip1)
+}
+
