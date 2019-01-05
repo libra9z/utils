@@ -49,6 +49,27 @@ func Convert2Int(v interface{}) int {
 
 	return int(ret)
 }
+func Convert2Int32(v interface{}) int32 {
+
+	if v == nil {
+		return 0
+	}
+
+	t := reflect.TypeOf(v)
+	var ret int64
+	switch t.Name() {
+	case "string":
+		ret, _ = strconv.ParseInt(v.(string), 10, 64)
+	case "float64":
+		ret = int64(v.(float64))
+	case "int64":
+		ret = v.(int64)
+	case "int":
+		ret = int64(v.(int))
+	}
+
+	return int32(ret)
+}
 
 func Convert2Int16(v interface{}) int16 {
 
