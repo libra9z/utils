@@ -1,4 +1,4 @@
-module platform/common/utils
+module github.com/libra9z/utils
 
 require (
 	github.com/disintegration/imaging v1.6.0
