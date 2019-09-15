@@ -43,6 +43,10 @@ func Convert2Int(v interface{}) int {
 		ret = int64(v.(float64))
 	case "int64":
 		ret = v.(int64)
+	case "int32":
+		ret = int64(v.(int32))
+	case "int16":
+		ret = int64(v.(int16))
 	case "int":
 		ret = int64(v.(int))
 	}
