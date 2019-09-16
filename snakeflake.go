@@ -1,58 +1,53 @@
 package utils
 
+// This package provides unique id in distribute system
+// the algorithm is inspired by Twitter's famous snowflake
+// its link is: https://github.com/twitter/snowflake/releases/tag/snowflake-2010
+//
+
+// +---------------+----------------+----------------+
+// |timestamp(ms)42  | worker id(10) | sequence(12)	 |
+// +---------------+----------------+----------------+
+
+// Copyright (C) 2016 by zheng-ji.info
+
 import (
 	"errors"
 	"sync"
 	"time"
 )
 
-// +-----------------+----------------+----------------+-----------------+
-// |timestamp(ms)42  | host id (2)    | worker id(8)   | sequence(12)	 |
-// +-----------------+----------------+----------------+-----------------+
-
 const (
 	CEpoch         = 1474802888000
-	CHostIdBits  	= 2 // Num of WorkerId Bits
-	CWorkerIdBits  = 8 // Num of WorkerId Bits
+	CWorkerIdBits  = 10 // Num of WorkerId Bits
 	CSenquenceBits = 12 // Num of Sequence Bits
 
 	CWorkerIdShift  = 12
-	CHostIdShift  	= 20
 	CTimeStampShift = 22
 
-	CSequenceMask = 0xfff 	// equal as getSequenceMask()
-	CMaxWorker    = 0xff 	// equal as getMaxWorkerId()
-	CMaxHost     = 0x3 		// equal as getMaxHostId()
+	CSequenceMask = 0xfff // equal as getSequenceMask()
+	CMaxWorker    = 0x3ff // equal as getMaxWorkerId()
 )
 
 // IdWorker Struct
 type IdWorker struct {
 	workerId      int64
-	hostId        int64
 	lastTimeStamp int64
 	sequence      int64
 	maxWorkerId   int64
-	maxHostId     int64
 	lock          *sync.Mutex
 }
 
 // NewIdWorker Func: Generate NewIdWorker with Given workerid
-func NewIdWorker(hostid,workerid int64) (iw *IdWorker, err error) {
+func NewIdWorker(workerid int64) (iw *IdWorker, err error) {
 	iw = new(IdWorker)
 
 	iw.maxWorkerId = getMaxWorkerId()
-	iw.maxHostId = getMaxHostId()
 
 	if workerid > iw.maxWorkerId || workerid < 0 {
 		return nil, errors.New("worker not fit")
 	}
-
-	if hostid > iw.maxHostId || hostid < 0 {
-		return nil, errors.New("hostid not fit")
-	}
-
 	iw.workerId = workerid
-	iw.hostId = hostid
 	iw.lastTimeStamp = -1
 	iw.sequence = 0
 	iw.lock = new(sync.Mutex)
@@ -62,11 +57,6 @@ func NewIdWorker(hostid,workerid int64) (iw *IdWorker, err error) {
 func getMaxWorkerId() int64 {
 	return -1 ^ -1<<CWorkerIdBits
 }
-
-func getMaxHostId() int64 {
-	return -1 ^ -1<<CHostIdBits
-}
-
 
 func getSequenceMask() int64 {
 	return -1 ^ -1<<CSenquenceBits
@@ -108,15 +98,14 @@ func (iw *IdWorker) NextId() (ts int64, err error) {
 		return 0, err
 	}
 	iw.lastTimeStamp = ts
-	ts = (ts-CEpoch)<<CTimeStampShift |iw.hostId<<CHostIdShift  |iw.workerId<<CWorkerIdShift | iw.sequence
+	ts = (ts-CEpoch)<<CTimeStampShift | iw.workerId<<CWorkerIdShift | iw.sequence
 	return ts, nil
 }
 
 // ParseId Func: reverse uid to timestamp, workid, seq
-func ParseId(id int64) (t time.Time, ts int64,hostid, workerId int64, seq int64) {
+func ParseId(id int64) (t time.Time, ts int64, workerId int64, seq int64) {
 	seq = id & CSequenceMask
 	workerId = (id >> CWorkerIdShift) & CMaxWorker
-	hostid = (id >> CHostIdShift) & CMaxHost
 	ts = (id >> CTimeStampShift) + CEpoch
 	t = time.Unix(ts/1000, (ts%1000)*1000000)
 	return
