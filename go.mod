@@ -10,3 +10,5 @@ require (
 	github.com/libra9z/mahonia v0.0.0-20150731031913-6d9f3cf9f957
 	github.com/mitchellh/mapstructure v1.1.2 // indirect
 )
+
+go 1.13
