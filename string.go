@@ -35,3 +35,33 @@ func ClearPercent(s string) string {
 
 	return ss[0]
 }
+
+func GetStringIndex(body []byte, bound []byte ) []int {
+
+	blen := len(bound)
+
+	bodylen := len(body)
+
+	index := -1
+	var idxs []int
+
+	var j int
+	for i := 0; i < bodylen; i++ {
+		j = 0
+		if body[i] == bound[0] {
+			index = i
+			for j = 0; j < blen && i+j < bodylen; j++ {
+				if body[i+j] != bound[j] && j < blen {
+					index = -1
+					break
+				}
+			}
+		}
+		if j == blen {
+			i = i + j
+			idxs = append(idxs, index)
+		}
+	}
+
+	return idxs
+}

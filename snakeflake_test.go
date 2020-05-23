@@ -7,7 +7,7 @@ import (
 
 func TestSnowFlake(t *testing.T) {
 	fmt.Println("start generate")
-	iw, _ := NewIdWorker(1,2)
+	iw, _ := NewIdWorker(2)
 	var prevId int64 = 0
 	for i := 0; i < 10; i++ {
 		id, err := iw.NextId()
@@ -26,13 +26,13 @@ func TestSnowFlake(t *testing.T) {
 }
 
 func TestSnowFlakeParseId(t *testing.T) {
-	iw, _ := NewIdWorker(2,2)
+	iw, _ := NewIdWorker(2)
 	for i := 0; i < 200; i++ {
 		id, err := iw.NextId()
 		if err != nil {
 			fmt.Println(err)
 		} else {
-			t, ts,hid, wid, seq := ParseId(id)
+			t, ts,hid, wid := ParseId(id)
 			//输出ID
 			fmt.Println(id)
 			//输出时间
@@ -43,8 +43,7 @@ func TestSnowFlakeParseId(t *testing.T) {
 			fmt.Println(wid)
 			//输出hostid
 			fmt.Println(hid)
-			//输出序列号
-			fmt.Println(seq)
+
 		}
 	}
 }

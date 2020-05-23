@@ -499,3 +499,18 @@ func GetStartEndTimeOfWeekday(week int,weekday int)(start ,end string){
 	return start,end
 }
 
+func GetTime( sec int64,layout string) string{
+
+	t :=time.Unix(sec,0)
+
+	ti :=t.Format(layout)
+
+	return ti
+
+}
+
+func GetCurrentTime() uint32 {
+	t := time.Now()
+	sec := t.Unix()
+	return uint32(sec)
+}
