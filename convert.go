@@ -204,3 +204,30 @@ func StructToMap(v interface{}) (map[string]interface{}, error) {
 
 	return m, nil
 }
+
+func Convert2Bool(v interface{}) bool {
+	if v == nil {
+		return false
+	}
+
+	var ret bool
+	t := reflect.TypeOf(v)
+	switch t.Name() {
+	case "string":
+		ret ,_= strconv.ParseBool(v.(string))
+	case "int64":
+		var b int64
+		b = v.(int64)
+		if b == 0 {
+			ret = false
+		}else {
+			ret = true
+		}
+	case "bool":
+		ret = v.(bool)
+	default:
+		ret = false
+	}
+
+	return ret
+}
