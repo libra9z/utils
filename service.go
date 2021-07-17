@@ -134,6 +134,11 @@ func ServicePostWithTimeout(uri string,params string,timeout int)(interface{},er
  	return servPostWithTimeout("application/json",uri,params,timeout)
 }
 
+func PostWithTimeout(uri string,contenttype string,params string,timeout int)(interface{},error) {
+
+	return servPostWithTimeout(contenttype,uri,params,timeout)
+}
+
 func ServicePostFDWithTimeout(uri string,params string,timeout int)(interface{},error) {
 
 	return servPostWithTimeout("application/x-www-form-urlencoded",uri,params,timeout)
@@ -230,6 +235,9 @@ func servPut(contenttype string,uri string,params string)(interface{},error) {
 
 func ServicePutWithTimeout(uri string,params string,timeout int)(interface{},error) {
 	return servPutFDWithTimeout("application/json",uri,params,timeout)
+}
+func PutWithTimeout(uri string,contenttype string,params string,timeout int)(interface{},error) {
+	return servPutFDWithTimeout(contenttype,uri,params,timeout)
 }
 
 func ServicePutFDWithTimeout(uri string,params string,timeout int)(interface{},error) {
